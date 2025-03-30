@@ -7,6 +7,28 @@
         document.title = title;
     }
 
+    let services = [
+        "contracts",
+        "procurations",
+        "certificates",
+        "jugements",
+        "bilans",
+        "technical",
+        "work",
+        "education",
+        "civil",
+        "notarial",
+        "official",
+        "cars",
+        "fiscal",
+        "genealogic",
+        "expertise",
+        "penal",
+        "judiciary",
+        "commercial",
+        "invoice"
+    ];
+
     // Set the document title when the component mounts
     onMount(() => {
         setDocumentTitle($t('menu.contact.title'));
@@ -50,22 +72,24 @@
 
 <!-- Add a form with contact infos and a selector -->
 <form>
-    <label for="name">Name:</label>
+    <label for="name">{$t('contact.name')}:</label>
     <input type="text" id="name" name="name" required>
 
-    <label for="email">Email:</label>
+    <label for="email">{$t('contact.email')}:</label>
     <input type="email" id="email" name="email" required>
     
     <select id="type" name="type" required>
-        <option value="trad">Traduction assermentée</option>
-        <option value="inter">Interprétation</option>
+        <option value="" disabled selected>{$t('contact.select_type')}</option>
+        {#each services as service}
+            <option value={service}>{$t(`services.${service}`)}</option>
+        {/each}
     </select>
 
-    <label for="message">Message:</label>
+    <label for="message">{$t('contact.message')}:</label>
     <textarea id="message" name="message" required></textarea>
 
-    <label for="file">File:</label>
+    <label for="file">{$t('contact.file')}:</label>
     <input type="file" id="file" name="file" accept=".pdf, .doc, .docx, .png, .jpg, .jpeg">
 
-    <button type="submit">Submit</button>
+    <button type="submit">{$t('contact.send')}</button>
 </form>

@@ -12,6 +12,8 @@
         { nameKey: 'menu.services.title', path: '/services' },
         { nameKey: 'menu.contact.title', path: '/contact' }
     ];
+
+    let isMenuOpen = false;
 </script>
 
 <style>
@@ -47,15 +49,81 @@
     a:hover {
         text-decoration: underline;
     }
+
+    .burger {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+    }
+    .burger div {
+        width: 30px;
+        height: 3px;
+        background-color: #333;
+        margin: 3px 0;
+        transition: all 0.3s ease;
+    }
+    .burger:focus {
+        outline: none;
+    }
+
+    @media (max-width: 768px) {
+        nav {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background-color: #f8f9fa;
+            width: 100%;
+            padding: 1rem;
+            border-top: 1px solid #ddd;
+        }
+
+        nav.open {
+            display: flex;
+        }
+
+        .burger {
+            display: flex;
+        }
+    }
+    @media (max-width: 480px) {
+        header {
+            padding: 0.5rem 1rem;
+        }
+
+        .logo img {
+            width: 50px;
+        }
+    }
+
 </style>
 
-<header>
+<header >
     <a href="/" class="logo"><img src={Logo} alt="Logo" width="70"></a>
-    <nav>
+
+    <!-- Burger menu toggle -->
+    <button 
+        class="burger" 
+        on:click={() => (isMenuOpen = !isMenuOpen)} 
+        aria-expanded={isMenuOpen} 
+        aria-label="Toggle menu">
+        <div></div>
+        <div></div>
+        <div></div>
+    </button>
+
+    <!-- Mobile navigation menu -->
+    <nav class={isMenuOpen ? 'open' : ''}>
         {#each routes as route}
-            <!-- Use $t() dynamically to translate the name -->
-            <a href={route.path}>{$t(route.nameKey)}</a>
+            <a href={route.path} on:click={() => (isMenuOpen = false)}>{$t(route.nameKey)}</a>
         {/each}
+        <LocaleSelector />
     </nav>
-    <LocaleSelector />
 </header>
